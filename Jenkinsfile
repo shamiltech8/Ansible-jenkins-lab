@@ -15,9 +15,21 @@ pipeline {
             }
         }
 
-        stage('Run Ansible') {
+        stage('Run Local Ansible') {
             steps {
                 sh 'ansible-playbook -i localhost, playbook.yml'
+            }
+        }
+
+        stage('Test EC2 Connection') {
+            steps {
+                sshagent(credentials: ['ec2-ansible-ssh']) {
+                    sh '''
+                        ANSIBLE_HOST_KEY_CHECKING=False \
+                        ansible all -i '15.206.66.123,' \
+                        -u ubuntu -m ping
+                    '''
+                }
             }
         }
     }
