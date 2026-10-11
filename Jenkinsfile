@@ -21,18 +21,33 @@ pipeline {
             }
         }
 
-    stage('Inspect EC2 Server') {
-        steps {
-            sshagent(credentials: ['ec2-ansible-ssh']) {
-                sh '''
-                    export ANSIBLE_HOST_KEY_CHECKING=False
+        stage('Test EC2 Connection') {
+            steps {
+                sshagent(credentials: ['ec2-ansible-ssh']) {
+                    sh '''
+                        export ANSIBLE_HOST_KEY_CHECKING=False
 
-                    ansible all -i '15.206.66.123,' \
-                        -u ubuntu -m command -a 'hostname'
+                        ansible all -i '15.206.66.123,' \
+                            -u ubuntu -m ping
+                    '''
+                }
+            }
+        }
 
-                    ansible all -i '15.206.66.123,' \
-                        -u ubuntu -m command -a 'uname -srm'
-                '''
+        stage('Inspect EC2 Server') {
+            steps {
+                sshagent(credentials: ['ec2-ansible-ssh']) {
+                    sh '''
+                        export ANSIBLE_HOST_KEY_CHECKING=False
+
+                        ansible all -i '15.206.66.123,' \
+                            -u ubuntu -m command -a 'hostname'
+
+                        ansible all -i '15.206.66.123,' \
+                            -u ubuntu -m command -a 'uname -srm'
+                    '''
+                }
             }
         }
     }
+}
