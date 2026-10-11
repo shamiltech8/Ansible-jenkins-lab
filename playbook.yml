@@ -1,0 +1,14 @@
+---
+- name: Jenkins Ansible Integration Lab
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Confirm Ansible is running
+      ansible.builtin.debug:
+        msg: "Jenkins successfully invoked Ansible!"
+
+    - name: Display deployment environment
+      ansible.builtin.debug:
+        msg: "Environment: lab"
