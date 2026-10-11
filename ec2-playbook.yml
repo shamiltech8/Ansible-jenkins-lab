@@ -1,0 +1,27 @@
+
+---
+- name: Verify existing Docker Nginx on AWS EC2
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Check that the Nginx container exists and is running
+      community.docker.docker_container_info:
+        name: nginx
+      register: nginx_container
+
+    - name: Verify the Nginx container is running
+      ansible.builtin.assert:
+        that:
+          - nginx_container.exists
+          - nginx_container.container.State.Running
+        success_msg: "Docker Nginx is running successfully."
+        fail_msg: "Docker Nginx is missing or stopped."
+
+    - name: Display the Nginx container details
+      ansible.builtin.debug:
+        msg:
+          - "Container: {{ nginx_container.container.Name }}"
+          - "Image: {{ nginx_container.container.Config.Image }}"
+          - "Status: {{ nginx_container.container.State.Status }}"
