@@ -1,3 +1,4 @@
+
 ---
 - name: Jenkins Ansible Integration Lab
   hosts: localhost
@@ -9,7 +10,20 @@
       ansible.builtin.debug:
         msg: "Jenkins successfully invoked Ansible!"
 
-    - name: Display deployment environment
+    - name: Create a deployment test file
+      ansible.builtin.copy:
+        dest: /tmp/ansible-jenkins-lab.txt
+        content: |
+          Deployment completed successfully.
+          Executed through Jenkins and Ansible.
+        mode: "0644"
+
+    - name: Verify the deployment test file
+      ansible.builtin.command:
+        cmd: cat /tmp/ansible-jenkins-lab.txt
+      register: deployment_result
+      changed_when: false
+
+    - name: Display deployment result
       ansible.builtin.debug:
-        msg: "Environment: lab"
-# Testing Jenkins automatic polling
+        var: deployment_result.stdout
