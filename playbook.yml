@@ -12,3 +12,4 @@
     - name: Display deployment environment
       ansible.builtin.debug:
         msg: "Environment: lab"
+# Testing Jenkins automatic polling
