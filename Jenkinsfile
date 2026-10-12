@@ -65,5 +65,20 @@ pipeline {
                 }
             }
         }
+
+
+        stage('Configure EC2 with Ansible') {
+            steps {
+                sshagent(credentials: ['ec2-ansible-ssh']) {
+                    sh '''
+                        export ANSIBLE_HOST_KEY_CHECKING=False
+                        ansible-playbook \
+                            -i '15.206.66.123,' \
+                            -u ubuntu \
+                            ec2-config-playbook.yml
+                    '''
+                }
+            }
+        }
     }
 }
