@@ -1,0 +1,27 @@
+---
+- name: Manage a demo configuration file on AWS EC2
+  hosts: all
+  become: true
+  gather_facts: false
+
+  tasks:
+    - name: Create an Ansible-managed configuration file
+      ansible.builtin.copy:
+        dest: /opt/ansible-managed-demo.txt
+        content: |
+          Managed by Ansible through Jenkins.
+          Project: Cloud-Native Task Manager
+          Environment: learning
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Verify the configuration file
+      ansible.builtin.command:
+        cmd: cat /opt/ansible-managed-demo.txt
+      register: config_output
+      changed_when: false
+
+    - name: Display the configuration file contents
+      ansible.builtin.debug:
+        var: config_output.stdout
