@@ -25,7 +25,6 @@ pipeline {
             steps {
                 sshagent(credentials: ['ec2-ansible-ssh']) {
                     sh '''
-                        export ANSIBLE_HOST_KEY_CHECKING=False
 
                         ansible all -i '15.206.66.123,' \
                             -u ubuntu -m ping
@@ -38,7 +37,6 @@ pipeline {
             steps {
                 sshagent(credentials: ['ec2-ansible-ssh']) {
                     sh '''
-                        export ANSIBLE_HOST_KEY_CHECKING=False
 
                         ansible all -i '15.206.66.123,' \
                             -u ubuntu -m command -a 'hostname'
@@ -55,7 +53,6 @@ pipeline {
             steps {
                 sshagent(credentials: ['ec2-ansible-ssh']) {
                     sh '''
-                        export ANSIBLE_HOST_KEY_CHECKING=False
 
                         ansible-playbook \
                             -i '15.206.66.123,' \
@@ -71,7 +68,6 @@ pipeline {
             steps {
                 sshagent(credentials: ['ec2-ansible-ssh']) {
                     sh '''
-                        export ANSIBLE_HOST_KEY_CHECKING=False
                         ansible-playbook \
                             -i '15.206.66.123,' \
                             -u ubuntu \
