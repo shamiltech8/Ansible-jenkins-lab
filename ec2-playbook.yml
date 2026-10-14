@@ -2,7 +2,6 @@
 ---
 - name: Verify existing Docker Nginx on AWS EC2
   hosts: all
-  become: true
   gather_facts: false
 
   tasks:
