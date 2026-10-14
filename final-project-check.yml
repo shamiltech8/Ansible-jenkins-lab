@@ -1,0 +1,8 @@
+---
+- name: Final project server and application checks
+  hosts: app_servers
+  gather_facts: false
+
+  roles:
+    - server_setup
+    - app_verify

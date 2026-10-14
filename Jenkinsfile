@@ -76,5 +76,18 @@ pipeline {
                 }
             }
         }
+
+        
+        stage('Final Project Verification') {
+            steps {
+                sshagent(credentials: ['ec2-ansible-ssh']) {
+                    sh '''
+                        ansible-playbook \
+                            -i inventory/production.ini \
+                            final-project-check.yml
+                    '''
+                }
+            }
+        }
     }
 }

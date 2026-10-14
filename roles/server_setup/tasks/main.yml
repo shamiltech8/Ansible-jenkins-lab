@@ -1,0 +1,18 @@
+---
+- name: Check server hostname
+  ansible.builtin.command: hostname
+  register: server_hostname
+  changed_when: false
+
+- name: Display server hostname
+  ansible.builtin.debug:
+    msg: "Managed server: {{ server_hostname.stdout }}"
+
+- name: Check available disk space
+  ansible.builtin.command: df -h /
+  register: disk_space
+  changed_when: false
+
+- name: Display disk space
+  ansible.builtin.debug:
+    var: disk_space.stdout_lines

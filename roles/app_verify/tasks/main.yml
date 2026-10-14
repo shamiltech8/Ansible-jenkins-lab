@@ -1,0 +1,20 @@
+---
+- name: Check Docker Nginx container
+  community.docker.docker_container_info:
+    name: nginx
+  register: nginx_container
+
+- name: Verify Nginx is running
+  ansible.builtin.assert:
+    that:
+      - nginx_container.exists
+      - nginx_container.container.State.Running
+    success_msg: "Nginx container is running."
+    fail_msg: "Nginx container is missing or stopped."
+
+- name: Display Nginx details
+  ansible.builtin.debug:
+    msg:
+      - "Container: {{ nginx_container.container.Name }}"
+      - "Image: {{ nginx_container.container.Config.Image }}"
+      - "Status: {{ nginx_container.container.State.Status }}"
