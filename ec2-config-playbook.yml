@@ -1,11 +1,11 @@
 ---
 - name: Manage a demo configuration file on AWS EC2
   hosts: all
-  become: true
   gather_facts: false
 
   tasks:
     - name: Create an Ansible-managed configuration file
+      become: true
       ansible.builtin.copy:
         dest: /opt/ansible-managed-demo.txt
         content: |
